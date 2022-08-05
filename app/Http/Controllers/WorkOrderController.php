@@ -47,7 +47,7 @@ class WorkOrderController extends Controller
             'pelaksana3'=>$request->pelaksana3,
             'pelaksana4'=>$request->pelaksana4,
             'tindakan'=>$request->tindakan,
-            'hasil'=>'selesai',
+            'hasil'=>$request->hasil,
             'tgl_finish'=>$request->tgl_finish,
             'catatan_petugas'=>$request->catatan_petugas,
             'tgl_in'=>$request->tgl_in,
