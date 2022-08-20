@@ -27,6 +27,7 @@ class MasterDataController extends Controller
     //====================================================================
     public function work_pelaksana(){
         $data = DB::table('work_pelaksana')
+        ->where('kategori','EDP')
         ->get();
         if(count($data)>0){
             $print = [
