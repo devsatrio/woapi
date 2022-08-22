@@ -9,6 +9,7 @@ class MasterDataController extends Controller
     //====================================================================
     public function work_list(){
             $data = DB::table('work_list')
+            ->where('unit','EDP')
             ->get();
             if(count($data)>0){
                 $print = [
