@@ -6,6 +6,42 @@ use DB;
 
 class WorkOrderController extends Controller
 {
+
+    //====================================================================
+    public function today_order_list()
+    {
+        $data = DB::table('work_order')
+        ->where('tujuan','=','EDP')
+        ->wheredate('tgl_order',date('Y-m-d'))
+        ->get();
+        $print = [
+                'data'=>$data,
+                'sts'=>'sukses',
+            ];
+        return $print;
+    }
+
+    //====================================================================
+    public function dashboard()
+    {
+        $date_now=date('Y-m-d');
+        $order_today = DB::table('work_order')
+        ->whereDate('tgl_order', '=', date('Y-m-d'))
+        ->count();
+
+        $order_finish_today = DB::table('work_order')
+        ->where('hasil','selesai')
+        ->whereDate('tgl_order', '=', date('Y-m-d'))
+        ->count();
+
+        $print = [
+            'order_today'=>$order_today,
+            'order_finish_today'=>$order_finish_today,
+            'sts'=>'sukses',
+        ];
+        return($print);
+    }
+
     //====================================================================
     public function index(){
             $data = DB::table('work_order')
@@ -68,7 +104,7 @@ class WorkOrderController extends Controller
             'pelaksana3'=>$pelaksana3,
             'pelaksana4'=>$pelaksana4,
             'tindakan'=>$request->tindakan,
-            'hasil'=>'selesai',
+            'hasil'=>$request->hasil,
             'tgl_finish'=>$request->tgl_finish,
             'catatan_petugas'=>$request->catatan_petugas,
             'tgl_in'=>date('Y-m-d H:i:s'),
