@@ -177,9 +177,9 @@ class WorkOrderController extends Controller
     }
 
     //====================================================================
-    public function destroy($kode){
+    public function destroy(Request $request){
         $data = DB::table('work_order')
-        ->where('idwo',$kode)
+        ->where('idwo',$request->idwo)
         ->delete();
         if(count($data)>0){
             $print = [

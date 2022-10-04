@@ -12,3 +12,5 @@ $router->get('work_order', 'WorkOrderController@index');
 $router->post('work_order', 'WorkOrderController@store');
 $router->get('dashboard', 'WorkOrderController@dashboard');
 $router->get('today_order_list', 'WorkOrderController@today_order_list');
+
+$router->post('work_order/delete', 'WorkOrderController@destroy');
