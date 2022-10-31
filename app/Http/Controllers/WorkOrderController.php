@@ -141,34 +141,72 @@ class WorkOrderController extends Controller
     }
 
     //====================================================================
-    public function update(Request $request,$kode)
+    public function update(Request $request)
     {
-        DB::table('work_order')
-        ->where('idwo',$kode)
-        ->update([
-            'tgl_order'=>$request->tgl_order,
-            'id_unit'=>$final_unit_order[0],
-            'unit_order'=>$final_unit_order[1],
-            'tujuan'=>$final_unit_tujuan[1],
-            'kategori'=>'onsite',
-            'jenis'=>'perbaikan barang',
-            'no_inventaris'=>'-',
-            'nama_barang'=>$request->nama_barang,
-            'detail_barang'=>$request->detail_barang,
-            'permasalahan'=>$request->permasalahan,
-            'tgl_execute'=>$request->tgl_execute,
-            'pelaksana1'=>$pelaksana1,
-            'pelaksana2'=>$pelaksana2,
-            'pelaksana3'=>$pelaksana3,
-            'pelaksana4'=>$pelaksana4,
-            'tindakan'=>$request->tindakan,
-            'hasil'=>'selesai',
-            'tgl_finish'=>$request->tgl_finish,
-            'catatan_petugas'=>$request->catatan_petugas,
-            'tgl_up'=>$request->tgl_up,
-            'user_up'=>$request->user_up,
-        ]);
-
+            
+        $final_unit_tujuan = explode('-',$request->tujuan);
+        $final_unit_order = explode('-',$request->id_unit);
+        if($request->pelaksana!=''){
+            $pelaksana1 = '';
+            $pelaksana2 = '';
+            $pelaksana3 = '';
+            $pelaksana4 = '';
+            $new_pelaksana = substr($request->pelaksana,1);
+            $final_pelaksana = explode(',',$new_pelaksana);
+            for ($i=0; $i < count($final_pelaksana) ; $i++) { 
+                if($i==0){
+                    $pelaksana1 = $final_pelaksana[$i];
+                }elseif ($i==1) {
+                    $pelaksana2 = $final_pelaksana[$i];
+                }elseif ($i==2)  {
+                    $pelaksana3 = $final_pelaksana[$i];
+                }elseif ($i==3) {
+                    $pelaksana4 = $final_pelaksana[$i];
+                }
+            }
+            DB::table('work_order')
+            ->where('idwo',$request->kode_wo)
+            ->update([
+                'tgl_order'=>$request->tgl_order,
+                'id_unit'=>$final_unit_order[0],
+                'unit_order'=>$final_unit_order[1],
+                'tujuan'=>$final_unit_tujuan[1],
+                'nama_barang'=>$request->nama_barang,
+                'detail_barang'=>$request->detail_barang,
+                'permasalahan'=>$request->permasalahan,
+                'tgl_execute'=>$request->tgl_execute,
+                'pelaksana1'=>$pelaksana1,
+                'pelaksana2'=>$pelaksana2,
+                'pelaksana3'=>$pelaksana3,
+                'pelaksana4'=>$pelaksana4,
+                'tindakan'=>$request->tindakan,
+                'hasil'=>$request->hasil,
+                'tgl_finish'=>$request->tgl_finish,
+                'catatan_petugas'=>$request->catatan_petugas,
+                'tgl_up'=>date('Y-m-d H:i:s'),
+                'user_up'=>'edp',
+            ]);
+        }else{
+            DB::table('work_order')
+            ->where('idwo',$request->kode_wo)
+            ->update([
+                'tgl_order'=>$request->tgl_order,
+                'id_unit'=>$final_unit_order[0],
+                'unit_order'=>$final_unit_order[1],
+                'tujuan'=>$final_unit_tujuan[1],
+                'nama_barang'=>$request->nama_barang,
+                'detail_barang'=>$request->detail_barang,
+                'permasalahan'=>$request->permasalahan,
+                'tgl_execute'=>$request->tgl_execute,
+                'tindakan'=>$request->tindakan,
+                'hasil'=>$request->hasil,
+                'tgl_finish'=>$request->tgl_finish,
+                'catatan_petugas'=>$request->catatan_petugas,
+                'tgl_up'=>date('Y-m-d H:i:s'),
+                'user_up'=>'edp',
+            ]);
+        }
+        
         $print = [
             'sts'=>'sukses',
             'msg'=>'Berhasil menyimpan data',
