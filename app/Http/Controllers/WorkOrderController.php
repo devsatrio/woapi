@@ -6,6 +6,18 @@ use DB;
 
 class WorkOrderController extends Controller
 {
+    //====================================================================
+    public function all_order()
+    {
+        $data = DB::table('work_order')
+        ->where('tujuan','=','EDP')
+        ->paginate(1);
+        $print = [
+                'data'=>$data,
+                'sts'=>'sukses',
+            ];
+        return $print;
+    }
 
     //====================================================================
     public function today_order_list()
