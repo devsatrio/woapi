@@ -11,12 +11,13 @@ class WorkOrderController extends Controller
     {
         $data = DB::table('work_order')
         ->where('tujuan','=','EDP')
-        ->paginate(1);
+        ->orderby('tgl_order','desc')
+        ->paginate(20);
         $print = [
                 'data'=>$data,
                 'sts'=>'sukses',
             ];
-        return $print;
+        return $data;
     }
 
     //====================================================================
