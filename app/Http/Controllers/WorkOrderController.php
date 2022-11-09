@@ -15,6 +15,7 @@ class WorkOrderController extends Controller
                 ->where('tujuan','=','EDP')
                 ->orderby('tgl_order','desc')
                 ->where('unit_order', 'like', '%'.$request->cari.'%')
+                ->orwhere('nama_barang', 'like', '%'.$request->cari.'%')
                 ->paginate(6);
             }else{
                 $data = DB::table('work_order')
